@@ -1,9 +1,11 @@
-BEGIN TRANSACTION
-DROP TABLE IF EXISTS 
-DROP TABLE IF EXISTS 
-DROP TABLE IF EXISTS 
-DROP TABLE IF EXISTS 
-DROP TABLE IF EXISTS 
+DROP TABLE IF EXISTS system_variant_users_own;
+DROP TABLE IF EXISTS games_users_own;
+DROP TABLE IF EXISTS system_variant;
+DROP TABLE IF EXISTS game;
+DROP TABLE IF EXISTS system_variant;
+DROP TABLE IF EXISTS manufacturer;
+DROP TABLE IF EXISTS game_system;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
 	user_id serial,
@@ -52,15 +54,23 @@ CREATE TABLE game (
 	
 );
 
-CREATE TABLE system_variant_own (
+CREATE TABLE games_users_own {
+	user_id int NOT NULL,
+	game_id int NOT NULL,
+	quantity int NOT NULL,
+
+	CONSTRAINT pk_games_users_own PRIMARY KEY(user_id, game_id),
+	CONSTRAINT fk_games_users_own_user_id FOREIGN KEY(user_id) REFERENCES users(user_id),
+	CONSTRAINT fk_games_users_own_game_id FOREIGN KEY(game_id) REFERENCES game(game_id)
+};
+}
+CREATE TABLE system_variant_users_own (
 	user_id int NOT NULL,
 	system_variant_id int NOT NULL
-	quantity int NOT NULL
+	quantity int NOT NULL,
 
 	CONSTRAINT pk_system_variant_own PRIMARY KEY(user_id, system_variant_id),
 	CONSTRAINT fk_system_variant_own FOREIGN KEY(user_id) REFERENCES users(user_id),
 	CONSTRAINT fk_system_variant_own FOREIGN KEY(system_variant_id) REFERENCES system_variant(system_variant_id)
 );
 
-
-COMMIT TRANSACTION;
