@@ -35,10 +35,11 @@ CREATE TABLE game_system (
 
 CREATE TABLE system_variant (
 	system_variant_id serial,
-	game_system int NOT NULL,
+	game_system_id int NOT NULL,
 	system_variant_name varchar(100) NOT NULL,
 	
 	CONSTRAINT pk_system_variant PRIMARY KEY (system_variant_id),
+	CONSTRAINT fk_system_variant_game_system_id FOREIGN KEY (game_system_id) REFERENCES game_system(game_system_id)
 	
 );
 
