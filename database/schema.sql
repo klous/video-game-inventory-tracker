@@ -2,8 +2,8 @@ DROP TABLE IF EXISTS system_variant_users_own;
 DROP TABLE IF EXISTS games_users_own;
 DROP TABLE IF EXISTS system_variant;
 DROP TABLE IF EXISTS game;
-DROP TABLE IF EXISTS manufacturer;
 DROP TABLE IF EXISTS game_system;
+DROP TABLE IF EXISTS manufacturer;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
@@ -14,16 +14,6 @@ CREATE TABLE users (
 	CONSTRAINT pk_users PRIMARY KEY (user_id)
 );
 
-CREATE TABLE game_system (
-	game_system_id serial,
-	system_name varchar(100) NOT NULL,
-	system_nickname varchar(100),
-	description varchar(300) NOT NULL,
-	image_url varchar(256),
-
-	CONSTRAINT pk_game_system PRIMARY KEY (game_system_id)
-);
-
 CREATE TABLE manufacturer (
 	manufacturer_id serial,
 	manufacturer_name varchar(200) NOT NULL,
@@ -31,14 +21,25 @@ CREATE TABLE manufacturer (
 	CONSTRAINT pk_manufacturer PRIMARY KEY (manufacturer_id)
 );
 
+CREATE TABLE game_system (
+	game_system_id serial,
+	system_name varchar(100) NOT NULL,
+	manufacturer_id int NOT NULL,
+	system_nickname varchar(100),
+	description varchar(300) NOT NULL,
+	image_url varchar(256),
+
+	CONSTRAINT pk_game_system PRIMARY KEY (game_system_id),
+	CONSTRAINT fk_game_system_manufacturer_id FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(manufacturer_id)
+);
+
 CREATE TABLE system_variant (
 	system_variant_id serial,
 	game_system int NOT NULL,
 	system_variant_name varchar(100) NOT NULL,
-	manufacturer_id int NOT NULL,
 	
 	CONSTRAINT pk_system_variant PRIMARY KEY (system_variant_id),
-	CONSTRAINT fk_system_variant_id FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(manufacturer_id)
+	
 );
 
 CREATE TABLE game (
