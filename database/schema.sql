@@ -8,7 +8,7 @@ DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
 	user_id serial,
-	name varchar(100) NOT NULL,
+	username varchar(100) NOT NULL,
 	email varchar(120) NOT NULL,
 
 	CONSTRAINT pk_users PRIMARY KEY (user_id)
