@@ -17,6 +17,7 @@ CREATE TABLE users (
 CREATE TABLE game_system (
 	game_system_id serial,
 	system_name varchar(100) NOT NULL,
+	system_nickname varchar(100),
 	description varchar(300) NOT NULL,
 	image_url varchar(256),
 
