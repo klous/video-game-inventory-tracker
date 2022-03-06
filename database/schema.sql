@@ -48,12 +48,10 @@ CREATE TABLE platform_model (
 
 CREATE TABLE game (
 	game_id serial,
-	platform_id int NOT NULL,
 	game_name varchar(150) NOT NULL,
 	description varchar(300),
 	
-	CONSTRAINT pk_game PRIMARY KEY (game_id),
-	CONSTRAINT fk_platform_id FOREIGN KEY(platform_id) REFERENCES platform(platform_id)
+	CONSTRAINT pk_game PRIMARY KEY (game_id)
 );
 
 -- WHERE THE GAMES WERE PUBLISHED TO / PLATFORMS THE GAME IS AVAILABLE ON. e.g. Hades Can be played on PC or Nintendo Switch. Final Fantasy 7 Can be played on Playstation 1, PC, and was released on the Nintendo Switch too.
@@ -74,7 +72,7 @@ CREATE TABLE games_users_own (
 	quantity int NOT NULL,
 	physical boolean NOT NULL,
 
-	CONSTRAINT pk_games_users_own PRIMARY KEY (user_id, game_id),
+	CONSTRAINT pk_games_users_own PRIMARY KEY (user_id, game_id, platform_id),
 	CONSTRAINT fk_games_users_own_user_id FOREIGN KEY(user_id) REFERENCES users(user_id),
 	CONSTRAINT fk_games_users_own_game_id FOREIGN KEY(game_id) REFERENCES game(game_id),
 	CONSTRAINT fk_games_users_own_platorm_id FOREIGN KEY (platform_id) REFERENCES platform(platform_id)
