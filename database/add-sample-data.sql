@@ -13,6 +13,8 @@ INSERT INTO manufacturer
     ('Valve')
 ;
 
+
+
 INSERT INTO platform
     (platform_name, manufacturer_id, description, system_nickname)
     VALUES
@@ -43,7 +45,6 @@ VALUES
 ('Nintendo 64 NA', 6, 'Original Top Loading N64 with 4 controller ports and the first controller stick on a Nintendo device and 10 buttons', 'https://en.wikipedia.org/wiki/Nintendo_64')
 ;
 
-
 INSERT INTO game 
 (game_name, description)
 VALUES
@@ -67,12 +68,12 @@ VALUES
 (2, 1),
 (2, 7),
 (3, 4),
-(4, 4),
-(4, 1),
-(4, 7),
-(5, 6),
-(6, 1),
+(5, 4),
+(5, 1),
+(5, 7),
+(6, 6),
 (7, 1),
+(8, 1),
 (8, 1),
 (8, 7),
 (9, 6)
