@@ -20,21 +20,34 @@ public class JdbcGameDao implements GameDao{
     @Override
     public Game getGame(int gameID) {
         Game game = null;
-        int[] platformIDs = null;
         //the game_id alone doesn't uniquely identify a game that can be owned since you have to own it on a platform
+
+        //todo two separate queries - one for the game info, a second for the platform_ids
         String sql =
-                "SELECT game_name, game.game_id, game.description, platform_game.platform_id\n" +
+                "SELECT game_name, game_id, description\n" +
+                "FROM game\n" +
+                "WHERE game_id = ?\n";
+        SqlRowSet gameResult = jdbcTemplate.queryForRowSet(sql, gameID);
+
+        if(gameResult.next()){
+            game = mapRowToGame(gameResult);
+        }
+
+        sql = "SELECT platform.platform_id\n" +
                 "FROM game\n" +
                 "INNER JOIN platform_game on platform_game.game_id = game.game_id\n" +
                 "INNER JOIN platform on platform.platform_id = platform_game.platform_id\n" +
                 "WHERE game.game_id = ?\n" +
-                "ORDER BY platform_game.platform_id ASC;";
-        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameID);
+                "ORDER BY platform.platform_id;";
+        SqlRowSet IDresults = jdbcTemplate.queryForRowSet(sql, gameID);
 
-        while(results.next()){
-            game = mapRowToGame(results);
+        List <Integer> platformIDs = new ArrayList<>();
 
+        while(IDresults.next()){
+            platformIDs.add(mapRowToPlatformID(IDresults));
         }
+        game.setPlatformIDs(platformIDs);
+
         return game;
     }
 
@@ -81,17 +94,18 @@ public class JdbcGameDao implements GameDao{
 
     }
 
+    private int mapRowToPlatformID(SqlRowSet rowSet){
+         return (rowSet.getInt("platform_id"));
+    }
+
     private Game mapRowToGame(SqlRowSet rowSet){
         Game game = new Game();
         // set the attributes for game Object
         game.setGameID(rowSet.getInt("game_id"));
-        game.setPhysical(rowSet.getBoolean("physical"));
         game.setGameName(rowSet.getString("game_name"));
-        game.addPlatformID(rowSet.getInt("platform_id"));
         if(rowSet.getString("description") != null){
             game.setDescription(rowSet.getString("description"));
         }
-
         return game;
 
     }

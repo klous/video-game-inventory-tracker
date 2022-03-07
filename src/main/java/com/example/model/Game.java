@@ -1,5 +1,6 @@
 package com.example.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Game {
@@ -8,20 +9,25 @@ public class Game {
     private String gameName;
     private int gameID;
     private String Description;
+
+    //todo this is an attribute of a OWNERSHIP - how it is owned - not a game, so should not really be here...
     private boolean physical;
 
-    //todo should I really be returning a list of the platformIDs?
-    public List<Integer> getPlatformIDs() {
-        return platformIDs;
+    public Integer[] getPlatformIDs() {
+        //int[] platformIDsArray = new int[getPlatformIDs().length];
+        Integer[] platformIDsArray = platformIDs.toArray(new Integer[0]);
+
+        return platformIDsArray;
     }
 
-    public void setPlatformIDs(List<Integer> platformIDs) {this.platformIDs = platformIDs;}
+    public void setPlatformIDs(List<Integer> platformIDs) {
+        this.platformIDs = platformIDs;}
 
     public void addPlatformID(int platformID){
         this.platformIDs.add(platformID);
     }
 
-    private List<Integer> platformIDs;
+    private List<Integer> platformIDs = new ArrayList<>();
 
 
     public boolean isPhysical() {return physical;}
