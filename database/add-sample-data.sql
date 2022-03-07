@@ -1,8 +1,9 @@
 INSERT INTO users
     (username, email)
     VALUES
-    ('testuser', 'test@example.com');
-
+    ('user1', 'test@example.com'),
+	('user2', 'test2@example.com')
+;
 INSERT INTO manufacturer
     (manufacturer_name)
     VALUES
@@ -18,7 +19,7 @@ INSERT INTO manufacturer
 INSERT INTO platform
     (platform_name, manufacturer_id, description, system_nickname)
     VALUES
-    ('Peronsal Computer Gaming', 3, 'PC Gaming on Windows Based Machines', 'PC Gaming'),
+    ('Personal Computer Gaming', 3, 'PC Gaming on Windows Based Machines', 'PC Gaming'),
     ('Nintendo Entertainment System', 1, 'Originial NES released in the 80s', 'NES'),
     ('Super Nintendo Entertainment System', 1, 'Sequel to the NES, released in the early 90s, controller added shoulder buttons and two other buttons to original NES', 'SNES'),
     ('Playstation', 2, 'Original gray playstation, used discs for games instead of cartridges', 'PS1'),
@@ -44,7 +45,6 @@ VALUES
 ('Nintendo Switch OLED', 7, 'Much improved OLED screen that was also larger at 7 inches', 'https://en.wikipedia.org/wiki/Nintendo_Switch#Hardware'),
 ('Nintendo 64 NA', 6, 'Original Top Loading N64 with 4 controller ports and the first controller stick on a Nintendo device and 10 buttons', 'https://en.wikipedia.org/wiki/Nintendo_64')
 ;
-
 INSERT INTO game 
 (game_name, description)
 VALUES
@@ -64,16 +64,16 @@ INSERT INTO
 platform_game
 (game_id, platform_id)
 VALUES
-(1, 1),
-(2, 1),
+(1, 2),
+(2, 2),
 (2, 7),
-(3, 4),
+(3, 3),
+(3, 7),
 (5, 4),
 (5, 1),
 (5, 7),
 (6, 6),
 (7, 1),
-(8, 1),
 (8, 1),
 (8, 7),
 (9, 6)
@@ -84,6 +84,8 @@ INSERT INTO games_users_own
 (user_id, game_id, platform_id, quantity, physical)
 VALUES
 (1, 1, 2, 1, true),
+(2, 1, 2, 1, true),
+(2, 4, 4, 1, true),
 (1, 2, 2, 1, true),
 (1, 2, 7, 1, false),
 (1, 3, 3, 1, true),
@@ -91,6 +93,7 @@ VALUES
 (1, 5, 4, 1, true),
 (1, 5, 7, 1, false),
 (1, 7, 1, 1, true),
+(2, 7, 1, 1, true),
 (1, 8, 1, 1, false),
 (1, 8, 7, 1, false)
 ;
