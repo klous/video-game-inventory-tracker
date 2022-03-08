@@ -1,7 +1,6 @@
 package com.example.dao;
 
 import com.example.model.Game;
-import com.example.model.Platform;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
@@ -83,7 +82,6 @@ public class JdbcGameDao implements GameDao{
 
     @Override
     public boolean deleteGame(int gameID) {
-         boolean wasDeleted = false;
          String sql =
                  "DELETE FROM games_users_own\n" +
                          "WHERE game_id = ?;\n" +
@@ -91,10 +89,8 @@ public class JdbcGameDao implements GameDao{
                          "WHERE game_id = ?;\n" +
                          "DELETE FROM game\n" +
                          "WHERE game_id = ?;";
-         // jdbcTemplate.update returns an integer
-         wasDeleted = jdbcTemplate.update(sql, gameID) == 1;
-
-         return wasDeleted;
+         // jdbcTemplate.update returns an integer of rows affected
+         return jdbcTemplate.update(sql, gameID, gameID, gameID) == 1;
     }
 
     @Override

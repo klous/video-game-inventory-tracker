@@ -27,6 +27,10 @@ public class Main {
             System.out.println(displayGame(game));
         }
 
+        int gameIDToDelete = 8;
+        System.out.println("Deleting gameID :" + gameIDToDelete);
+        gameDao.deleteGame(gameIDToDelete);
+
     }
 
     private static String displayGame(Game game){
