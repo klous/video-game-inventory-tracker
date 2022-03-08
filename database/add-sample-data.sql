@@ -15,7 +15,6 @@ INSERT INTO manufacturer
 ;
 
 
-
 INSERT INTO platform
     (platform_name, manufacturer_id, description, system_nickname)
     VALUES
@@ -45,6 +44,7 @@ VALUES
 ('Nintendo Switch OLED', 7, 'Much improved OLED screen that was also larger at 7 inches', 'https://en.wikipedia.org/wiki/Nintendo_Switch#Hardware'),
 ('Nintendo 64 NA', 6, 'Original Top Loading N64 with 4 controller ports and the first controller stick on a Nintendo device and 10 buttons', 'https://en.wikipedia.org/wiki/Nintendo_64')
 ;
+
 INSERT INTO game 
 (game_name, description)
 VALUES
@@ -69,6 +69,7 @@ VALUES
 (2, 7),
 (3, 3),
 (3, 7),
+(4, 4),
 (5, 4),
 (5, 1),
 (5, 7),

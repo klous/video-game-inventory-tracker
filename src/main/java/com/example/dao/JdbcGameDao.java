@@ -33,7 +33,8 @@ public class JdbcGameDao implements GameDao{
             game = mapRowToGame(gameResult);
         }
 
-        sql = "SELECT platform.platform_id\n" +
+        sql =
+                "SELECT platform.platform_id\n" +
                 "FROM game\n" +
                 "INNER JOIN platform_game on platform_game.game_id = game.game_id\n" +
                 "INNER JOIN platform on platform.platform_id = platform_game.platform_id\n" +
@@ -56,11 +57,12 @@ public class JdbcGameDao implements GameDao{
     public List<Game> getGamesByPlatform(int platformID) {
         List <Game> gameList = new ArrayList<>();
 
-        String sql = "SELECT game_name, game.game_id, platform_name, platform.platform_id\n" +
-                "FROM game\n" +
-                "INNER JOIN platform_game on platform_game.game_id = game.game_id\n" +
-                "INNER JOIN platform on platform.platform_id = platform_game.platform_id\n" +
-                "WHERE platform_id = ?";
+        String sql =
+                "SELECT game_name, game.game_id, game.description\n" +
+                        "FROM game\n" +
+                        "INNER JOIN platform_game on platform_game.game_id = game.game_id\n" +
+                        "INNER JOIN platform on platform.platform_id = platform_game.platform_id\n" +
+                        "WHERE platform_game.platform_id = ?;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, platformID);
         while(results.next()){
             gameList.add(mapRowToGame(results));
@@ -80,19 +82,36 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public void deleteGame(int gameID) {
+    public boolean deleteGame(int gameID) {
+         boolean wasDeleted = false;
+         String sql =
+                 "DELETE FROM games_users_own\n" +
+                         "WHERE game_id = ?;\n" +
+                         "DELETE FROM platform_game\n" +
+                         "WHERE game_id = ?;\n" +
+                         "DELETE FROM game\n" +
+                         "WHERE game_id = ?;";
+         // jdbcTemplate.update returns an integer
+         wasDeleted = jdbcTemplate.update(sql, gameID) == 1;
 
+         return wasDeleted;
     }
 
     @Override
-    public void addGameToPlatform(int gameID, Platform platform) {
-
+    public boolean addGameToPlatform(int gameID, int platformID) {
+        return false;
     }
 
     @Override
-    public void removeGameFromPlatform(int gameID, Platform platform) {
-
+    public boolean removeGameFromPlatform(int gameID, int platformID) {
+        return false;
     }
+
+    @Override
+    public boolean addGameToUserCollection(int gameID, int platformID, boolean physical, int quantity) {
+        return false;
+    }
+
 
     private int mapRowToPlatformID(SqlRowSet rowSet){
          return (rowSet.getInt("platform_id"));

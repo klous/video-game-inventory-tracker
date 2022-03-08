@@ -14,15 +14,12 @@ public interface GameDao {
 
     void updateGame(Game Game);
 
-    void deleteGame(int gameID);
+    boolean deleteGame(int gameID);
 
-    void addGameToPlatform(int gameID, Platform platform);
+    boolean addGameToPlatform(int gameID, int platformID);
 
-    void removeGameFromPlatform(int gameID, Platform platform);
+    boolean removeGameFromPlatform(int gameID, int platformID);
 
-
-
-
-
+    boolean addGameToUserCollection(int gameID, int platformID, boolean physical, int quantity);
 
 }
