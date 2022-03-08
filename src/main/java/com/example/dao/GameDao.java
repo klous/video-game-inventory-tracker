@@ -1,7 +1,6 @@
 package com.example.dao;
 
 import com.example.model.Game;
-import com.example.model.Platform;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ public interface GameDao {
 
     Game createGame(Game game);
 
-    void updateGame(Game Game);
+    Game updateGame(int gameID, Game game);
 
     boolean deleteGame(int gameID);
 
@@ -21,5 +20,7 @@ public interface GameDao {
     boolean removeGameFromPlatform(int gameID, int platformID);
 
     boolean addGameToUserCollection(int gameID, int platformID, boolean physical, int quantity);
+
+    boolean addGameToListOfPlatforms(int gameID, int[] platformIDs);
 
 }

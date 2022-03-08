@@ -72,31 +72,68 @@ public class JdbcGameDao implements GameDao{
 
     @Override
     public Game createGame(Game game) {
-        return null;
+        String sql =
+                "INSERT INTO game \n" +
+                "(game_name, description)\n" +
+                "VALUES\n +" +
+                "(?, ?)\n" +
+                "RETURNING game_id;";
+        int newID = jdbcTemplate.update(sql, game.getGameName(), game.getDescription());
+
+        Game createdGame = getGame(newID);
+
+        return createdGame;
     }
 
     @Override
-    public void updateGame(Game Game) {
+    public Game updateGame(int gameID, Game game) {
+         Game updatedGame = null;
+         String sql =
+                 "UPDATE game SET game_name = ?, description=? " +
+                 "WHERE game_id=?;";
+         jdbcTemplate.update(sql, game.getGameName(), game.getDescription(), gameID );
+         updatedGame = getGame(gameID);
 
+         return updatedGame;
     }
 
     @Override
     public boolean deleteGame(int gameID) {
          String sql =
-                 "DELETE FROM games_users_own\n" +
-                         "WHERE game_id = ?;\n" +
-                         "DELETE FROM platform_game\n" +
-                         "WHERE game_id = ?;\n" +
-                         "DELETE FROM game\n" +
-                         "WHERE game_id = ?;";
-         // jdbcTemplate.update returns an integer of rows affected
+             "DELETE FROM games_users_own\n" +
+             "WHERE game_id = ?;\n" +
+             "DELETE FROM platform_game\n" +
+             "WHERE game_id = ?;\n" +
+             "DELETE FROM game\n" +
+             "WHERE game_id = ?;";
+         // jdbcTemplate.update returns an integer of rows affected, should be 1 when successfully deleting a row by id
          return jdbcTemplate.update(sql, gameID, gameID, gameID) == 1;
     }
 
     @Override
     public boolean addGameToPlatform(int gameID, int platformID) {
-        return false;
+        String sql =
+            "INSERT into platform_game\n" +
+            "(game_id, platform_id)\n" +
+            "VALUES\n" +
+            "(?, ?);";
+        // jdbcTemplate.update returns an integer of rows affected, so if 1 row affected / inserted will be true.
+        return jdbcTemplate.update(sql, gameID, platformID) == 1;
     }
+
+    @Override
+    public boolean addGameToListOfPlatforms(int gameID, int[] platformIDs) {
+         boolean platformIDsAdded = false;
+         for(int platformID : platformIDs){
+             platformIDsAdded = addGameToPlatform(gameID, platformID);
+             // if a platform id was NOT added, the addGameToPlatform will return false - then we check for that here and break out of for loop
+             if(platformIDsAdded == false){
+                 break;
+             }
+        }
+         return platformIDsAdded;
+     }
+
 
     @Override
     public boolean removeGameFromPlatform(int gameID, int platformID) {
@@ -107,6 +144,8 @@ public class JdbcGameDao implements GameDao{
     public boolean addGameToUserCollection(int gameID, int platformID, boolean physical, int quantity) {
         return false;
     }
+
+
 
 
     private int mapRowToPlatformID(SqlRowSet rowSet){
