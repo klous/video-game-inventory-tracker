@@ -8,10 +8,23 @@ public class Game {
 
     private String gameName;
     private int gameID;
-    private String Description;
+    private String description;
 
-    //todo this is an attribute of a OWNERSHIP - how it is owned - not a game, so should not really be here...
-    private boolean physical;
+    public Game(){}
+
+    public Game(String gameName, int gameID, String description){
+        this.gameName = gameName;
+        this.gameID = gameID;
+        this.description = description;
+    };
+
+    public Game(String gameName, int gameID, String description, List<Integer> platformIDs){
+        this.gameName = gameName;
+        this.gameID = gameID;
+        this.description = description;
+        this.platformIDs = platformIDs;
+    };
+
 
     public Integer[] getPlatformIDs() {
         //int[] platformIDsArray = new int[getPlatformIDs().length];
@@ -29,12 +42,6 @@ public class Game {
 
     private List<Integer> platformIDs = new ArrayList<>();
 
-
-    public boolean isPhysical() {return physical;}
-    public void setPhysical(boolean physical) {
-        this.physical = physical;
-    }
-
     public String getGameName() {return gameName;}
     public void setGameName(String gameName) {
         this.gameName = gameName;
@@ -45,9 +52,9 @@ public class Game {
         this.gameID = gameID;
     }
 
-    public String getDescription() {return Description;}
+    public String getDescription() {return description;}
     public void setDescription(String description) {
-        Description = description;
+        this.description = description;
     }
 
 }
