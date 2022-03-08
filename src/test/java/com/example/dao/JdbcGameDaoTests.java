@@ -18,6 +18,8 @@ public class JdbcGameDaoTests extends BaseDaoTests{
     }};
     private static final Game GAME_2 = new Game("Super Mario Bros 3", 2, "A re-thought Mario Bros game where you could get and store power ups and had an map that you would travel around in between levels", PLATFORMS_GAME_2);
 
+    private static final Game GAME_4 = new Game("Gran Turismo", 4, "For the time, a pretty deep and complex racing simulation game");
+    private static final Game GAME_5 = new Game("Final Fantasy 7", 5,  "One of the most loved games and has been remade and re-released even on other consoles");
     private JdbcGameDao sut;
 
     @Before
@@ -36,7 +38,15 @@ public class JdbcGameDaoTests extends BaseDaoTests{
     }
 
 
-    //test to make sure adding to platforms works
+    //todo test to make sure adding to platforms works
+    @Test
+    public void getGamesByPlatform_id_returns_correct_games(){
+        List<Game> gameList = sut.getGamesByPlatform(4);
+
+    }
+
+    //todo add test for other JdbcGameDao methods like delete, update, etc.
+
 
     private void assertGamesMatch(Game expected, Game actual){
         Assert.assertEquals(expected.getGameID(), actual.getGameID());
@@ -49,8 +59,8 @@ public class JdbcGameDaoTests extends BaseDaoTests{
         // check length of array of platform ids
         Assert.assertEquals(expected.getPlatformIDs().length, actual.getPlatformIDs().length);
         //check individual values are equivalent
-        Integer[] expectedPlatforms = expected.getPlatformIDs();
-        Integer[] actualPlatforms = actual.getPlatformIDs();
+        int[] expectedPlatforms = expected.getPlatformIDs();
+        int[] actualPlatforms = actual.getPlatformIDs();
         for(int i = 0; i< expectedPlatforms.length; i++){
             Assert.assertEquals(expectedPlatforms[i], actualPlatforms[i]);
         }

@@ -32,7 +32,7 @@ CREATE TABLE platform (
 	description varchar(300) NOT NULL,
 	image_url varchar(256),
 
-	CONSTRAINT pk_latform PRIMARY KEY (platform_id),
+	CONSTRAINT pk_platform PRIMARY KEY (platform_id),
 	CONSTRAINT fk_platform_manufacturer_id FOREIGN KEY (manufacturer_id) REFERENCES manufacturer(manufacturer_id)
 );
 
@@ -63,7 +63,7 @@ CREATE TABLE platform_game (
 
 	CONSTRAINT pk_platform_game PRIMARY KEY (game_id, platform_id),
 	CONSTRAINT fk_platform_game_game_id FOREIGN KEY (game_id) REFERENCES game(game_id),
-	CONSTRAINT fk_platform_platorm_id FOREIGN KEY (platform_id) REFERENCES platform(platform_id)
+	CONSTRAINT fk_platform_platform_id FOREIGN KEY (platform_id) REFERENCES platform(platform_id)
 );
 
 
@@ -77,7 +77,7 @@ CREATE TABLE games_users_own (
 	CONSTRAINT pk_games_users_own PRIMARY KEY (user_id, game_id, platform_id),
 	CONSTRAINT fk_games_users_own_user_id FOREIGN KEY(user_id) REFERENCES users(user_id),
 	CONSTRAINT fk_games_users_own_game_id FOREIGN KEY(game_id) REFERENCES game(game_id),
-	CONSTRAINT fk_games_users_own_platorm_id FOREIGN KEY (platform_id) REFERENCES platform(platform_id)
+	CONSTRAINT fk_games_users_own_platform_id FOREIGN KEY (platform_id) REFERENCES platform(platform_id)
 );
 
 CREATE TABLE platform_model_users_own (

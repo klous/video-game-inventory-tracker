@@ -41,7 +41,7 @@ public class Main {
         String output = "gameID: " + gameID + " | Game Name: " + gameName + "\nDescription: " + gameDescription +"\nAvailable on these platform ids: ";
 
         String platformIdString ="( ";
-        Integer[] platformIDs = game.getPlatformIDs();
+        int[] platformIDs = game.getPlatformIDs();
         for (int i = 0; i < platformIDs.length;i++){
             platformIdString += platformIDs[i];
             if(i< platformIDs.length-1){

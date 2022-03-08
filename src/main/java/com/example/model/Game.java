@@ -1,5 +1,7 @@
 package com.example.model;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class Game {
     private String gameName;
     private int gameID;
     private String description;
+    private List<Integer> platformIDList = new ArrayList<>();
 
     public Game(){}
 
@@ -18,29 +21,29 @@ public class Game {
         this.description = description;
     };
 
-    public Game(String gameName, int gameID, String description, List<Integer> platformIDs){
+    //todo I don't think I really like how this takes a List in the constructor...an array could be used instead
+    public Game(String gameName, int gameID, String description, List<Integer> platformIDList){
         this.gameName = gameName;
         this.gameID = gameID;
         this.description = description;
-        this.platformIDs = platformIDs;
+        this.platformIDList = platformIDList;
     };
 
-
-    public Integer[] getPlatformIDs() {
+    // similarly, I don't love how this uses Integer
+    public int[] getPlatformIDs() {
         //int[] platformIDsArray = new int[getPlatformIDs().length];
-        Integer[] platformIDsArray = platformIDs.toArray(new Integer[0]);
+        int[] platformIDs = ArrayUtils.toPrimitive(platformIDList.toArray(new Integer[0]));
 
-        return platformIDsArray;
+        return platformIDs;
     }
 
     public void setPlatformIDs(List<Integer> platformIDs) {
-        this.platformIDs = platformIDs;}
+        this.platformIDList = platformIDs;}
 
     public void addPlatformID(int platformID){
-        this.platformIDs.add(platformID);
+        this.platformIDList.add(platformID);
     }
 
-    private List<Integer> platformIDs = new ArrayList<>();
 
     public String getGameName() {return gameName;}
     public void setGameName(String gameName) {
