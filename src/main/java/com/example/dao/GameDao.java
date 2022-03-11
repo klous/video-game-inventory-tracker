@@ -19,7 +19,7 @@ public interface GameDao {
 
     boolean removeGameFromPlatform(int gameID, int platformID);
 
-    boolean addGameToUserCollection(int gameID, int platformID, boolean physical, int quantity);
+    boolean addGameToUserCollection(int userID, int gameID, int platformID, boolean physical, int quantity);
 
     boolean addGameToListOfPlatforms(int gameID, int[] platformIDs);
 

@@ -141,8 +141,16 @@ public class JdbcGameDao implements GameDao{
     }
 
     @Override
-    public boolean addGameToUserCollection(int gameID, int platformID, boolean physical, int quantity) {
-        return false;
+    public boolean addGameToUserCollection(int userID, int gameID, int platformID, boolean physical, int quantity) {
+        boolean wasAdded = false;
+        String sql =
+                "INSERT INTO games_users_own\n" +
+                "(user_id, game_id, platform_id, quantity, physical)\n" +
+                "VALUES\n" +
+                "(?, ?, ?, ?, ?);";
+        wasAdded = jdbcTemplate.update(sql, userID, gameID, platformID, quantity, physical)==1;
+
+        return wasAdded;
     }
 
 
