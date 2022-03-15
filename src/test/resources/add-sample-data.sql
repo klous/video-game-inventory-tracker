@@ -28,7 +28,7 @@ CREATE TABLE platform (
 	platform_id serial,
 	platform_name varchar(100) NOT NULL,
 	manufacturer_id int NOT NULL,
-	system_nickname varchar(100),
+	platform_nickname varchar(100),
 	description varchar(300) NOT NULL,
 	image_url varchar(256),
 
@@ -110,7 +110,7 @@ INSERT INTO manufacturer
 
 
 INSERT INTO platform
-    (platform_name, manufacturer_id, description, system_nickname)
+    (platform_name, manufacturer_id, description, platform_nickname)
     VALUES
     ('Personal Computer Gaming', 3, 'PC Gaming on Windows Based Machines', 'PC Gaming'),
     ('Nintendo Entertainment System', 1, 'Originial NES released in the 80s', 'NES'),

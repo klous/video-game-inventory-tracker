@@ -15,7 +15,11 @@ public interface GameDao {
 
     boolean deleteGame(int gameID);
 
+    List<Game> getGamesOwnedByUser(int userID);
+
     boolean addGameToPlatform(int gameID, int platformID);
+
+    List<Game> searchForGames(String searchTerm);
 
     boolean removeGameFromPlatform(int gameID, int platformID);
 

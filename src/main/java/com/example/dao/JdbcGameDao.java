@@ -85,6 +85,7 @@ public class JdbcGameDao implements GameDao{
         return createdGame;
     }
 
+    //todo should I just update with the whole game object when updating the
     @Override
     public Game updateGame(int gameID, Game game) {
          Game updatedGame = null;
@@ -119,6 +120,26 @@ public class JdbcGameDao implements GameDao{
             "(?, ?);";
         // jdbcTemplate.update returns an integer of rows affected, so if 1 row affected / inserted will be true.
         return jdbcTemplate.update(sql, gameID, platformID) == 1;
+        //todo return newly updated game object instead of boolean?
+
+    }
+
+    @Override
+    public List<Game> searchForGames(String searchTerm) {
+         List<Game> gameList = new ArrayList<>();
+         String sql = "SELECT game_name, game.game_id, platform_name, platform.platform_id\n" +
+                 "FROM game\n" +
+                 "INNER JOIN platform_game on platform_game.game_id = game.game_id\n" +
+                 "INNER JOIN platform on platform.platform_id = platform_game.platform_id\n" +
+                 "WHERE game_name ILIKE ?;";
+         searchTerm = "%"+ searchTerm + "%";
+
+         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, searchTerm);
+         while(results.next()){
+             gameList.add(mapRowToGame(results));
+         }
+
+        return null;
     }
 
     @Override
@@ -133,6 +154,23 @@ public class JdbcGameDao implements GameDao{
         }
          return platformIDsAdded;
      }
+
+    @Override
+    public List<Game> getGamesOwnedByUser(int userID) {
+        List<Game> gameList = new ArrayList<>();
+        String sql = "SELECT game_name, game.description, pg.platform_id, user_id\n" +
+                "FROM games_users_own guo\n" +
+                "INNER JOIN game on game.game_id = guo.game_id\n" +
+                "INNER JOIN platform_game pg on pg.platform_id = guo.platform_id\n" +
+                "\tAND guo.game_id = pg.game_id\n" +
+                "WHERE user_id = 1\n" +
+                "ORDER BY game.game_id;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userID);
+        if(results.next()){
+            gameList.add(mapRowToGame(results));
+        }
+         return gameList;
+    }
 
 
     @Override

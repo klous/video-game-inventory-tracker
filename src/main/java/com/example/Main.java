@@ -2,6 +2,8 @@ package com.example;
 
 import com.example.dao.GameDao;
 import com.example.dao.JdbcGameDao;
+import com.example.dao.JdbcPlatformDao;
+import com.example.dao.PlatformDao;
 import com.example.model.Game;
 import org.apache.commons.dbcp2.BasicDataSource;
 
@@ -15,6 +17,7 @@ public class Main {
         dataSource.setPassword("postgres1");
 
         GameDao gameDao = new JdbcGameDao(dataSource);
+        PlatformDao platformDao = new JdbcPlatformDao(dataSource);
 
         System.out.println(displayGame(gameDao.getGame(8)));
 
