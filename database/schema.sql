@@ -11,8 +11,11 @@ CREATE TABLE users (
 	user_id serial,
 	username varchar(100) NOT NULL,
 	email varchar(120) NOT NULL,
+	password_hash varchar(200) NOT NULL,
 
-	CONSTRAINT pk_users PRIMARY KEY (user_id)
+	CONSTRAINT pk_users PRIMARY KEY (user_id),
+	CONSTRAINT uq_username UNIQUE (username),
+	CONSTRAINT uq_email UNIQUE (email)
 );
 
 CREATE TABLE manufacturer (
