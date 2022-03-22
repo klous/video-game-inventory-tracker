@@ -3,36 +3,56 @@ package com.example.videogameinventorymanagement.dao;
 import com.example.videogameinventorymanagement.model.Platform;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JdbcPlatformDao implements PlatformDao{
-    private final JdbcTemplate jdbcTemplate;
 
-    public JdbcPlatformDao(DataSource dataSource){this.jdbcTemplate = new JdbcTemplate(dataSource);}
+    private JdbcTemplate jdbcTemplate;
+
+    public JdbcPlatformDao(JdbcTemplate jdbcTemplate){
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Platform> getPlatformsForGame(int gameID) {
-        List<Platform> platformList = new ArrayList<>();
-        String sql = "SELECT platform.platform_id, platform_name, platform_nickname, platform.description, image_url\n" +
-                "FROM platform\n" +
-                "JOIN platform_game pg ON pg.platform_id = platform.platform_id\n" +
-                "WHERE game_id=?;";
+        List<Platform> platforms = new ArrayList<>();
+        String sql = "";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameID);
-        if(results.next()){
-            platformList.add(mapRowToPlatform(results));
+        while(results.next()){
+            platforms.add(mapRowToPlatform(results));
         }
         return null;
     }
 
-    private Platform mapRowToPlatform(SqlRowSet results) {
+    @Override
+    public List<Platform> getAllPlatforms() {
+        List<Platform> platforms = new ArrayList<>();
+        String sql = "SELECT platform.platform_id as pid, platform_name, platform_nickname, platform.description as platform_description, manufacturer_name, image_url\n" +
+                "FROM platform\n" +
+                "JOIN manufacturer manu on manu.manufacturer_id = platform.manufacturer_id\n" +
+                "ORDER BY pid;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        while(results.next()){
+            platforms.add(mapRowToPlatform(results));
+        }
+        return platforms;
+    }
+
+    private Platform mapRowToPlatform(SqlRowSet sqlRowSet) {
 
         Platform platform = new Platform();
-
-        //todo map the row to the Platform object using setters
+        platform.setName(sqlRowSet.getString("platform_name"));
+        platform.setPlatformID(sqlRowSet.getInt("pid"));
+        platform.setDescription(sqlRowSet.getString("platform_description"));
+        platform.setNickname(sqlRowSet.getString("platform_nickname"));
+        platform.setImageURL(sqlRowSet.getString("image_url"));
+        platform.setManufacturer(sqlRowSet.getString("manufacturer_name"));
 
         return platform;
     }

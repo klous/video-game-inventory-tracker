@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface PlatformDao {
     List<Platform> getPlatformsForGame(int gameID);
+
+    List<Platform> getAllPlatforms();
 }

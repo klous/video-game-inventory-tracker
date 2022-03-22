@@ -1,10 +1,10 @@
 package com.example.videogameinventorymanagement.model;
 
 public class Platform {
-    private String name;
     private int platformID;
-    private String manufacturer;
+    private String name;
     private String nickname;
+    private String manufacturer;
     private String description;
     private String imageURL;
 
