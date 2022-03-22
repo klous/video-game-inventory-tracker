@@ -28,10 +28,10 @@ public class PlatformController {
         return platformDao.getAllPlatforms();
     }
 
-//    @PreAuthorize("permitAll")
-//    @RequestMapping(path="/api/platforms/filter", method = RequestMethod.GET)
-//    public List<Platform> getplatforms(@RequestParam int id){
-//        return platformDao.getPlatforms();
-//    }
+    @PreAuthorize("permitAll")
+    @RequestMapping(path="/api/platforms/filter", method = RequestMethod.GET)
+    public List<Platform> getplatformsForGame(@RequestParam int gameid){
+        return platformDao.getPlatformsForGame(gameid);
+    }
 
 }

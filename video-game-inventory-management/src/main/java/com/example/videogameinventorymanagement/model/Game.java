@@ -14,6 +14,7 @@ public class Game {
         return platformIDList;
     }
 
+    //todo I don't like this... doesn't make sense to exist in the object...
     public void setPlatformIDList(List<Integer> platformIDList) {
         this.platformIDList = platformIDList;
     }

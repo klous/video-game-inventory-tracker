@@ -21,13 +21,18 @@ public class JdbcPlatformDao implements PlatformDao{
     @Override
     public List<Platform> getPlatformsForGame(int gameID) {
         List<Platform> platforms = new ArrayList<>();
-        String sql = "";
+        String sql = "SELECT platform.platform_id as pid, platform_name, platform_nickname, platform.description as platform_description, manufacturer_name, image_url\n" +
+                "FROM platform\n" +
+                "JOIN manufacturer manu on manu.manufacturer_id = platform.manufacturer_id\n" +
+                "JOIN platform_game on platform_game.platform_id = platform.platform_id\n" +
+                "WHERE game_id = ?\n" +
+                "ORDER BY pid;";
 
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, gameID);
         while(results.next()){
             platforms.add(mapRowToPlatform(results));
         }
-        return null;
+        return platforms;
     }
 
     @Override

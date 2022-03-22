@@ -25,13 +25,13 @@ public class GameController {
 
 
     /**
-     * Get Games By Platform id
+     * Get Games By Platform ID
      * @return
      */
     @PreAuthorize("permitAll")
     @RequestMapping(path="/api/games/filter", method = RequestMethod.GET)
-    public List<Game> getGamesByPlatformID(@RequestParam int id){
-        return gameDao.getGamesByPlatform(id);
+    public List<Game> getGamesByPlatformID(@RequestParam int platformid){
+        return gameDao.getGamesByPlatform(platformid);
     }
 
 
