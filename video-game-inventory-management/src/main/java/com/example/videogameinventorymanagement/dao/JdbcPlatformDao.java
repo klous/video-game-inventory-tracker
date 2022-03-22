@@ -41,12 +41,27 @@ public class JdbcPlatformDao implements PlatformDao{
         String sql = "SELECT platform.platform_id as pid, platform_name, platform_nickname, platform.description as platform_description, manufacturer_name, image_url\n" +
                 "FROM platform\n" +
                 "JOIN manufacturer manu on manu.manufacturer_id = platform.manufacturer_id\n" +
-                "ORDER BY pid;";
+                "ORDER BY platform.platform_id;";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         while(results.next()){
             platforms.add(mapRowToPlatform(results));
         }
         return platforms;
+    }
+
+    @Override
+    public Platform getPlatform(int platformID) {
+        Platform platform = null;
+        String sql = "SELECT platform.platform_id as pid, platform_name, platform_nickname, platform.description as platform_description, manufacturer_name, image_url\n" +
+                "FROM platform\n" +
+                "JOIN manufacturer manu on manu.manufacturer_id = platform.manufacturer_id\n" +
+                "WHERE platform.platform_id = ?;";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, platformID);
+
+        if(results.next()){
+            platform = mapRowToPlatform(results);
+        }
+        return platform;
     }
 
     private Platform mapRowToPlatform(SqlRowSet sqlRowSet) {

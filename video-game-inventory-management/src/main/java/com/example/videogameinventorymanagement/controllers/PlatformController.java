@@ -4,10 +4,7 @@ import com.example.videogameinventorymanagement.dao.PlatformDao;
 import com.example.videogameinventorymanagement.model.Game;
 import com.example.videogameinventorymanagement.model.Platform;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,4 +31,9 @@ public class PlatformController {
         return platformDao.getPlatformsForGame(gameid);
     }
 
+    @PreAuthorize("permitAll")
+    @RequestMapping(path="/api/platform/{id}", method = RequestMethod.GET)
+    public Platform getPlatform(@PathVariable int id) {
+        return platformDao.getPlatform(id);
+    }
 }
